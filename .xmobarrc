@@ -1,7 +1,7 @@
 Config { font       = "-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
        , bgColor    = "black"
        , fgColor    = "gray"
-       , position   = TopW L 90
+       , position   = TopW L 100
        , commands   = [ Run Weather "KSAC" [ "-t", " <tempC>C" 
                                            , "-L", "10"
                                            , "-H", "25"
@@ -17,12 +17,18 @@ Config { font       = "-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
                       , Run Date "<fc=#EE9A00>%a %b %d %H:%M</fc>" "date" 10
                       , Run StdinReader
                       , Run Battery [ "-t", "<acstatus> <leftbar> <left>%"
+                                    , "-L", "60"
+                                    , "-H", "95"
+                                    , "-l", "red"
+                                    , "-n", "blue"
+                                    , "-h", "green"
                                     , "--"
                                     , "-O", "<fc=green>AC Charging</fc>"
-                                    , "-o", ""
+                                    , "-o", "<fc=red>Discharging</fc>"
+                                    , "-f", "ACAD/online"
                                     ] 10
                       ]
        , sepChar    = "%"
        , alignSep   = "}{"
-       , template   = "%StdinReader% }{ %battery% | %cpu% | %memory% * %swap% | %date% | %KSAC%"
+       , template   = "%StdinReader% }{ %battery% | %cpu% | %memory% * %swap% | %date% | %KSAC% "
        }
