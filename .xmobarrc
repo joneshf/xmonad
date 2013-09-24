@@ -2,19 +2,20 @@ Config { font       = "-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
        , bgColor    = "black"
        , fgColor    = "gray"
        , position   = TopW L 100
-       , commands   = [ Run Weather "KSAC" [ "-t", " <tempC>C" 
+       , commands   = [ Run Weather "KSAC" [ "-t", " <tempC>C"
                                            , "-L", "10"
                                            , "-H", "25"
                                            , "--normal", "green"
                                            , "--high", "red"
-                                           , "--low", "lightblue"] 36000
-                      , Run Cpu [ "-L", "10"
-                                , "-H", "66"
-                                , "--normal", "green"
-                                , "--high", "red"] 10
+                                           , "--low", "lightblue" ] 36000
+                      , Run MultiCpu [ "-t", "Cpu: <autobar>"
+                                     , "-L", "33"
+                                     , "-H", "66"
+                                     , "--normal", "green"
+                                     , "--high", "red" ] 10
                       , Run Memory [ "-t", "Mem: <usedratio>%" ] 10
                       , Run Swap [] 10
-                      , Run Date "<fc=#EE9A00>%a %b %d %H:%M</fc>" "date" 10
+                      , Run Date "<fc=#EEAA00>%a %b %d %H:%M</fc>" "date" 10
                       , Run StdinReader
                       , Run Battery [ "-t", "<acstatus> <leftbar> <left>%"
                                     , "-L", "60"
@@ -30,5 +31,5 @@ Config { font       = "-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
                       ]
        , sepChar    = "%"
        , alignSep   = "}{"
-       , template   = "%StdinReader% }{ %battery% | %cpu% | %memory% * %swap% | %date% | %KSAC% "
+       , template   = "%StdinReader% }{ %battery% | %multicpu% | %memory% * %swap% | %date% | %KSAC% "
        }
