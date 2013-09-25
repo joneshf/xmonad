@@ -1,7 +1,7 @@
 Config { font       = "-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
        , bgColor    = "black"
        , fgColor    = "gray"
-       , position   = TopW L 100
+       , position   = TopW L 95
        , commands   = [ Run Weather "KSAC" [ "-t", " <tempC>C"
                                            , "-L", "10"
                                            , "-H", "25"
