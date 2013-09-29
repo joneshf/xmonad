@@ -37,26 +37,31 @@ myWorkspaces = [ "1: Chat"
 myKeys k = M.union (M.fromList (moreKeys k)) (keys defaultConfig k)
 
 moreKeys conf@(XConfig {XMonad.modMask = modm}) =
-    [ -- These two lines allow java to work with non-reparenting.
-      ((modm, xK_z),                        setWMName   "LG3D")
-    , ((modm, xK_Z),                        setWMName   "XMonad")
-    , ((modm, xK_Left),                     prevWS)
-    , ((modm, xK_Right),                    nextWS)
-    , ((modm .|. shiftMask, xK_Left),       shiftToPrev >> prevWS)
-    , ((modm .|. shiftMask, xK_Right),      shiftToNext >> nextWS)
-    , ((mod1Mask .|. controlMask, xK_l),    spawn       "xscreensaver-command -lock")
-    , ((modm, xK_KP_Add),                   spawn       "amixer -c 1 set Master 2dB+")
-    , ((modm, xK_KP_Subtract),              spawn       "amixer -c 1 set Master 2dB-")
-    , ((modm, xK_KP_0),                     spawn       "amixer -c 1 set Master 0%")
-    , ((modm, xK_KP_1),                     spawn       "amixer -c 1 set Master 10%")
-    , ((modm, xK_KP_2),                     spawn       "amixer -c 1 set Master 20%")
-    , ((modm, xK_KP_3),                     spawn       "amixer -c 1 set Master 30%")
-    , ((modm, xK_KP_4),                     spawn       "amixer -c 1 set Master 40%")
-    , ((modm, xK_KP_5),                     spawn       "amixer -c 1 set Master 50%")
-    , ((modm, xK_KP_6),                     spawn       "amixer -c 1 set Master 60%")
-    , ((modm, xK_KP_7),                     spawn       "amixer -c 1 set Master 70%")
-    , ((modm, xK_KP_8),                     spawn       "amixer -c 1 set Master 80%")
-    , ((modm, xK_KP_8),                     spawn       "amixer -c 1 set Master 80%")
-    , ((modm, xK_KP_9),                     spawn       "amixer -c 1 set Master 90%")
-    , ((modm, xK_KP_Enter),                 spawn       "amixer sset Master toggle")
+    -- These two lines allow java to work with non-reparenting.
+    [ ((modm,                     xK_z),            setWMName "LG3D")
+    , ((modm,                     xK_Z),            setWMName "XMonad")
+    -- Workspace movement.
+    , ((modm,                     xK_Left),         prevWS)
+    , ((modm,                     xK_Right),        nextWS)
+    , ((modm     .|. shiftMask,   xK_Left),         shiftToPrev >> prevWS)
+    , ((modm     .|. shiftMask,   xK_Right),        shiftToNext >> nextWS)
+    -- Replace dmenu with yeganesh.
+    , ((modm,                     xK_p),            spawn "yeganesh -x")
+    -- Lock te screen.
+    , ((mod1Mask .|. controlMask, xK_l),            spawn "xscreensaver-command -lock")
+    -- Volume controls.
+    , ((modm,                     xK_KP_Add),       spawn "amixer -c 1 set Master 2dB+")
+    , ((modm,                     xK_KP_Subtract),  spawn "amixer -c 1 set Master 2dB-")
+    , ((modm,                     xK_KP_0),         spawn "amixer -c 1 set Master 0%")
+    , ((modm,                     xK_KP_1),         spawn "amixer -c 1 set Master 10%")
+    , ((modm,                     xK_KP_2),         spawn "amixer -c 1 set Master 20%")
+    , ((modm,                     xK_KP_3),         spawn "amixer -c 1 set Master 30%")
+    , ((modm,                     xK_KP_4),         spawn "amixer -c 1 set Master 40%")
+    , ((modm,                     xK_KP_5),         spawn "amixer -c 1 set Master 50%")
+    , ((modm,                     xK_KP_6),         spawn "amixer -c 1 set Master 60%")
+    , ((modm,                     xK_KP_7),         spawn "amixer -c 1 set Master 70%")
+    , ((modm,                     xK_KP_8),         spawn "amixer -c 1 set Master 80%")
+    , ((modm,                     xK_KP_8),         spawn "amixer -c 1 set Master 80%")
+    , ((modm,                     xK_KP_9),         spawn "amixer -c 1 set Master 90%")
+    , ((modm,                     xK_KP_Enter),     spawn "amixer sset Master toggle")
     ]
