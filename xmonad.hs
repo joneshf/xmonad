@@ -6,6 +6,7 @@ import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.SetWMName
 import XMonad.Util.Run
+import XMonad.Util.NamedScratchpad
 
 import qualified Data.Map as M
 import Data.Monoid
@@ -21,7 +22,7 @@ main = do
         , borderWidth       = 2
         , workspaces        = myWorkspaces
         , keys              = myKeys
-        , manageHook        = myManageHook <+> manageDocks <+> manageHook defaultConfig
+        , manageHook        = namedScratchpadManageHook scratchpads <+> myManageHook <+> manageDocks <+> manageHook defaultConfig
         , layoutHook        = avoidStruts $ layoutHook defaultConfig
         , logHook           = dynamicLogWithPP xmobarPP
             { ppOutput          = hPutStrLn xmproc
@@ -29,6 +30,11 @@ main = do
             , ppHiddenNoWindows = id
             }
         }
+
+scratchpads :: [NamedScratchpad]
+scratchpads =
+    [ NS "htop" "xterm -e htop" (title =? "htop") defaultFloating
+    ]
 
 myManageHook :: Query (Endo WindowSet)
 myManageHook = composeAll
@@ -65,4 +71,5 @@ moreKeys (XConfig {XMonad.modMask = modm}) =
     , ((0,                        xF86XK_AudioLowerVolume), spawn "amixer -c 1 set Master 2dB-")
     , ((0,                        xF86XK_AudioRaiseVolume), spawn "amixer -c 1 set Master 2dB+")
     , ((0,                        xF86XK_AudioMute),        spawn "amixer sset Master toggle")
+    , ((modm .|. controlMask .|. shiftMask, xK_t), namedScratchpadAction scratchpads "htop")
     ]
