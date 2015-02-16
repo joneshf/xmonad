@@ -5,6 +5,7 @@ import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.SetWMName
+import XMonad.Layout.NoBorders
 import XMonad.Util.Run
 import XMonad.Util.NamedScratchpad
 
@@ -23,7 +24,7 @@ main = do
         , workspaces        = myWorkspaces
         , keys              = myKeys
         , manageHook        = namedScratchpadManageHook scratchpads <+> myManageHook <+> manageDocks <+> manageHook defaultConfig
-        , layoutHook        = avoidStruts $ layoutHook defaultConfig
+        , layoutHook        = smartBorders $ avoidStruts $ layoutHook defaultConfig
         , logHook           = dynamicLogWithPP xmobarPP
             { ppOutput          = hPutStrLn xmproc
             , ppTitle           = xmobarColor "green" ""
@@ -36,17 +37,27 @@ scratchpads =
     [ NS "htop" "xterm -e htop" (title =? "htop") defaultFloating
     ]
 
+shiftClassTo :: String -> WorkspaceId -> Query (Endo WindowSet)
+shiftClassTo s ws = className =? s --> doShift ws
+
 myManageHook :: Query (Endo WindowSet)
 myManageHook = composeAll
-    [ isFullscreen --> doFullFloat
-    , isDialog     --> doFloat
+    [ isFullscreen                --> doFullFloat
+    , isDialog                    --> doFloat
+    , className =? "Pidgin"       --> doFloat
+    , className =? "Lxappearance" --> doFloat
+    , "Xchat"    `shiftClassTo` "1: Chat"
+    , "Pidgin"   `shiftClassTo` "1: Chat"
+    --, "Chromium" `shiftClassTo` "4: Web"
+    , className =? "Chromium" <&&> fmap not isFullscreen --> doShift "4: Web"
+    , appName =? "sun-awt-X11-XFramePeer" --> doFloat
     ]
 
 myWorkspaces :: [String]
 myWorkspaces = [ "1: Chat"
                , "2: Term"
                , "3: Code"
-               , "4: Chromium"
+               , "4: Web"
                ] ++ map show [5..9 :: Int]
 
 myKeys :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
@@ -72,4 +83,6 @@ moreKeys (XConfig {XMonad.modMask = modm}) =
     , ((0,                        xF86XK_AudioRaiseVolume), spawn "amixer -c 1 set Master 2dB+")
     , ((0,                        xF86XK_AudioMute),        spawn "amixer sset Master toggle")
     , ((modm .|. controlMask .|. shiftMask, xK_t), namedScratchpadAction scratchpads "htop")
+    -- dmenu.
+    , ((modm,                     xK_p),            spawn "dmenu_run -fn \"xft:Droid Sans Mono\"")
     ]

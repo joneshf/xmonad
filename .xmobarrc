@@ -1,4 +1,4 @@
-Config { font       = "-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
+Config { font       = "-*-Fixed-Bold-R-Normal-*-18-*-*-*-*-*-*-*"
        , bgColor    = "black"
        , fgColor    = "gray"
        , position   = TopW L 90
@@ -8,7 +8,7 @@ Config { font       = "-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
                                            , "--normal", "green"
                                            , "--high", "red"
                                            , "--low", "lightblue" ] 36000
-                      , Run MultiCpu [ "-t", "Cpu: <autobar>"
+                      , Run MultiCpu [ "-t", "Cpu: <autototal>"
                                      , "-L", "33"
                                      , "-H", "66"
                                      , "--normal", "green"
@@ -18,10 +18,10 @@ Config { font       = "-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
                       , Run Date "<fc=#EEAA00>%a %b %d %H:%M</fc>" "date" 10
                       , Run StdinReader
                       , Run Battery [ "-t", "<acstatus> <leftbar> <left>%"
-                                    , "-L", "60"
-                                    , "-H", "95"
+                                    , "-L", "30"
+                                    , "-H", "80"
                                     , "-l", "red"
-                                    , "-n", "blue"
+                                    , "-n", "yellow"
                                     , "-h", "green"
                                     , "--"
                                     , "-O", "<fc=green>AC Charging</fc>"
