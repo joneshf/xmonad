@@ -1,4 +1,4 @@
-Config { font       = "-*-Fixed-Bold-R-Normal-*-18-*-*-*-*-*-*-*"
+Config { font       = "xft:Verdana:size=11:antialias=true"
        , bgColor    = "black"
        , fgColor    = "gray"
        , position   = TopW L 90
@@ -13,9 +13,12 @@ Config { font       = "-*-Fixed-Bold-R-Normal-*-18-*-*-*-*-*-*-*"
                                      , "-H", "66"
                                      , "--normal", "green"
                                      , "--high", "red" ] 10
-                      , Run Memory [ "-t", "Mem: <usedratio>%" ] 10
-                      , Run Swap [] 10
-                      , Run Date "<fc=#EEAA00>%a %b %d %H:%M</fc>" "date" 10
+                      , Run Memory [ "-t", "Mem: <usedratio>%"
+                                   , "-L", "50"
+                                   , "-H", "80"
+                                   , "--normal", "yellow"
+                                   , "--high", "red" ] 10
+                      , Run Date "<fc=#EEAA00>%a %b %d %T</fc>" "date" 10
                       , Run StdinReader
                       , Run Battery [ "-t", "<acstatus> <leftbar> <left>%"
                                     , "-L", "30"
@@ -31,5 +34,5 @@ Config { font       = "-*-Fixed-Bold-R-Normal-*-18-*-*-*-*-*-*-*"
                       ]
        , sepChar    = "%"
        , alignSep   = "}{"
-       , template   = "%StdinReader% }{ %battery% | %multicpu% | %memory% * %swap% | %date% | %KSAC% "
+       , template   = "%StdinReader% }{ %battery% | %multicpu% | %memory% | %date% | %KSAC% "
        }
