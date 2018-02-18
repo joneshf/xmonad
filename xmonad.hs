@@ -1,31 +1,34 @@
-import Data.List                    (delete)
-import Data.Monoid
-import Graphics.X11.ExtraTypes.XF86
-import XMonad                       hiding (focus)
-import XMonad.Actions.CycleWS
-import XMonad.Actions.MouseResize
-import XMonad.Hooks.DynamicLog
-import XMonad.Hooks.EwmhDesktops
-import XMonad.Hooks.ManageDocks
-import XMonad.Hooks.ManageHelpers
-import XMonad.Hooks.SetWMName
-import XMonad.Layout
-import XMonad.Layout.Decoration
-import XMonad.Layout.LayoutModifier
-import XMonad.Layout.NoBorders
+{-# LANGUAGE PackageImports #-}
+
+import "base" Data.List   (delete)
+import "base" Data.Monoid
+
+import "X11" Graphics.X11.ExtraTypes.XF86
+import "xmonad" XMonad                               hiding (focus)
+import "xmonad-contrib" XMonad.Actions.CycleWS
+import "xmonad-contrib" XMonad.Actions.MouseResize
+import "xmonad-contrib" XMonad.Hooks.DynamicLog
+import "xmonad-contrib" XMonad.Hooks.EwmhDesktops
+import "xmonad-contrib" XMonad.Hooks.ManageDocks
+import "xmonad-contrib" XMonad.Hooks.ManageHelpers
+import "xmonad-contrib" XMonad.Hooks.SetWMName
+import "xmonad" XMonad.Layout
+import "xmonad-contrib" XMonad.Layout.Decoration
+import "xmonad-contrib" XMonad.Layout.LayoutModifier
+import "xmonad-contrib" XMonad.Layout.NoBorders
     ( ConfigurableBorder
     , SetsAmbiguous(..)
     , lessBorders
     , smartBorders
     )
-import XMonad.Layout.SimpleFloat
-import XMonad.Layout.Spacing
-import XMonad.Layout.WindowArranger
-import XMonad.StackSet              (Stack(..))
-import XMonad.Util.NamedScratchpad
-import XMonad.Util.Run
+import "xmonad-contrib" XMonad.Layout.SimpleFloat
+import "xmonad-contrib" XMonad.Layout.Spacing
+import "xmonad-contrib" XMonad.Layout.WindowArranger
+import "xmonad" XMonad.StackSet                      (Stack(..))
+import "xmonad-contrib" XMonad.Util.NamedScratchpad
+import "xmonad-contrib" XMonad.Util.Run
 
-import qualified Data.Map as M
+import qualified "containers" Data.Map as M
 
 main :: IO ()
 main = do
