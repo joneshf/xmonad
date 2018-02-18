@@ -113,11 +113,17 @@ myManageHook = composeAll
     ]
 
 myWorkspaces :: [String]
-myWorkspaces = [ "1: Chat"
-               , "2: Term"
-               , "3: Code"
-               , "4: Web"
-               ] ++ map show [5..9 :: Int]
+myWorkspaces =
+    [ "1: Chat"
+    , "2: Term"
+    , "3: Code"
+    , "4: Web"
+    , "5"
+    , "6"
+    , "7"
+    , "8"
+    , "9"
+    ]
 
 myKeys :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
 myKeys k = M.fromList (moreKeys k) `M.union` keys defaultConfig k
