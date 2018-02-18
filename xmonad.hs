@@ -28,7 +28,7 @@ main = do
     xmonad $ defaultConfig
         { terminal          = "xfce4-terminal"
         , modMask           = mod4Mask
-        , handleEventHook   = fullscreenEventHook
+        , handleEventHook   = fullscreenEventHook <> docksEventHook
         , borderWidth       = 1
         , focusedBorderColor = "gray"
         , workspaces        = myWorkspaces
