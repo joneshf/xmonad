@@ -1,20 +1,48 @@
 {-# LANGUAGE PackageImports #-}
 
 import "base" Data.List   (delete)
-import "base" Data.Monoid
+import "base" Data.Monoid (Endo, (<>))
 
 import "X11" Graphics.X11.ExtraTypes.XF86
+    ( xF86XK_AudioLowerVolume
+    , xF86XK_AudioMute
+    , xF86XK_AudioRaiseVolume
+    , xF86XK_MonBrightnessDown
+    , xF86XK_MonBrightnessUp
+    )
 import "xmonad" XMonad                               hiding (focus)
 import "xmonad-contrib" XMonad.Actions.CycleWS
-import "xmonad-contrib" XMonad.Actions.MouseResize
+    ( nextWS
+    , prevWS
+    , shiftToNext
+    , shiftToPrev
+    )
+import "xmonad-contrib" XMonad.Actions.MouseResize   (MouseResize)
 import "xmonad-contrib" XMonad.Hooks.DynamicLog
-import "xmonad-contrib" XMonad.Hooks.EwmhDesktops
+    ( dynamicLogWithPP
+    , ppHiddenNoWindows
+    , ppOutput
+    , ppTitle
+    , xmobarColor
+    , xmobarPP
+    )
+import "xmonad-contrib" XMonad.Hooks.EwmhDesktops    (fullscreenEventHook)
 import "xmonad-contrib" XMonad.Hooks.ManageDocks
+    ( avoidStruts
+    , docksEventHook
+    , manageDocks
+    )
 import "xmonad-contrib" XMonad.Hooks.ManageHelpers
-import "xmonad-contrib" XMonad.Hooks.SetWMName
-import "xmonad" XMonad.Layout
+    ( doFullFloat
+    , isDialog
+    , isFullscreen
+    )
+import "xmonad-contrib" XMonad.Hooks.SetWMName       (setWMName)
 import "xmonad-contrib" XMonad.Layout.Decoration
-import "xmonad-contrib" XMonad.Layout.LayoutModifier
+    ( Decoration
+    , DefaultShrinker
+    )
+import "xmonad-contrib" XMonad.Layout.LayoutModifier (ModifiedLayout)
 import "xmonad-contrib" XMonad.Layout.NoBorders
     ( ConfigurableBorder
     , SetsAmbiguous(..)
@@ -22,11 +50,23 @@ import "xmonad-contrib" XMonad.Layout.NoBorders
     , smartBorders
     )
 import "xmonad-contrib" XMonad.Layout.SimpleFloat
+    ( SimpleDecoration
+    , SimpleFloat
+    , simpleFloat
+    )
 import "xmonad-contrib" XMonad.Layout.Spacing
-import "xmonad-contrib" XMonad.Layout.WindowArranger
-import "xmonad" XMonad.StackSet                      (Stack(..))
+    ( SmartSpacingWithEdge
+    , smartSpacingWithEdge
+    )
+import "xmonad-contrib" XMonad.Layout.WindowArranger (WindowArranger)
+import "xmonad" XMonad.StackSet                      (Stack(Stack, focus))
 import "xmonad-contrib" XMonad.Util.NamedScratchpad
-import "xmonad-contrib" XMonad.Util.Run
+    ( NamedScratchpad(NS)
+    , defaultFloating
+    , namedScratchpadAction
+    , namedScratchpadManageHook
+    )
+import "xmonad-contrib" XMonad.Util.Run              (hPutStrLn, spawnPipe)
 
 import qualified "containers" Data.Map as M
 
