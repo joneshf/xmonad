@@ -103,12 +103,9 @@ myManageHook :: Query (Endo WindowSet)
 myManageHook = composeAll
     [ isFullscreen                --> doFullFloat
     , isDialog                    --> doFloat
-    , className =? "Pidgin"       --> doFloat
     , className =? "Lxappearance" --> doFloat
     , className =? "Wish" 	  --> doFloat
     , "Xchat"    `shiftClassTo` "1: Chat"
-    , "Pidgin"   `shiftClassTo` "1: Chat"
-    --, "Chromium" `shiftClassTo` "4: Web"
     , className =? "Chromium" <&&> fmap not isFullscreen --> doShift "4: Web"
     , appName =? "sun-awt-X11-XFramePeer" --> doFloat
     ]
