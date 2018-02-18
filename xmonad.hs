@@ -3,7 +3,9 @@
 
 import "base" Data.List   (delete)
 import "base" Data.Monoid (Endo, (<>))
+import "base" GHC.Exts    (fromList)
 
+import "containers" Data.Map                         (Map)
 import "X11" Graphics.X11.ExtraTypes.XF86
     ( xF86XK_AudioLowerVolume
     , xF86XK_AudioMute
@@ -69,8 +71,6 @@ import "xmonad-contrib" XMonad.Util.NamedScratchpad
     )
 import "xmonad-contrib" XMonad.Util.Run              (hPutStrLn, spawnPipe)
 
-import qualified "containers" Data.Map as M
-
 main :: IO ()
 main = do
     xmproc <- spawnPipe "xmobar"
@@ -123,7 +123,7 @@ myWorkspaces =
     , "9"
     ]
 
-myKeys :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
+myKeys :: XConfig Layout -> Map (KeyMask, KeySym) (X ())
 myKeys =
     javaNonReparentingKeys
         <> workspaceMovementKeys
@@ -134,48 +134,48 @@ myKeys =
         <> const screenshotKeys
         <> keys defaultConfig
 
-javaNonReparentingKeys :: XConfig a -> M.Map (KeyMask, KeySym) (X ())
-javaNonReparentingKeys XConfig { modMask } = M.fromList
+javaNonReparentingKeys :: XConfig a -> Map (KeyMask, KeySym) (X ())
+javaNonReparentingKeys XConfig { modMask } = fromList
     [ ((modMask, xK_z), setWMName "LG3D")
     , ((modMask, xK_Z), setWMName "XMonad")
     ]
 
-workspaceMovementKeys :: XConfig a -> M.Map (KeyMask, KeySym) (X ())
-workspaceMovementKeys XConfig { modMask } = M.fromList
+workspaceMovementKeys :: XConfig a -> Map (KeyMask, KeySym) (X ())
+workspaceMovementKeys XConfig { modMask } = fromList
     [ ((modMask, xK_Left), prevWS)
     , ((modMask, xK_Right), nextWS)
     , ((modMask .|. shiftMask, xK_Left), shiftToPrev >> prevWS)
     , ((modMask .|. shiftMask, xK_Right), shiftToNext >> nextWS)
     ]
 
-lockScreenKeys :: M.Map (KeyMask, KeySym) (X ())
-lockScreenKeys = M.fromList
+lockScreenKeys :: Map (KeyMask, KeySym) (X ())
+lockScreenKeys = fromList
     [ ((mod1Mask .|. controlMask, xK_l), spawn "xscreensaver-command -lock")
     ]
 
-brightnessKeys :: XConfig a -> M.Map (KeyMask, KeySym) (X ())
-brightnessKeys XConfig { modMask } = M.fromList
+brightnessKeys :: XConfig a -> Map (KeyMask, KeySym) (X ())
+brightnessKeys XConfig { modMask } = fromList
     [ ((modMask, xF86XK_MonBrightnessUp), spawn "xbacklight -inc 1")
     , ((modMask, xF86XK_MonBrightnessDown), spawn "xbacklight -dec 1")
     , ((modMask .|. shiftMask, xF86XK_MonBrightnessUp), spawn "xbacklight -inc 10")
     , ((modMask .|. shiftMask, xF86XK_MonBrightnessDown), spawn "xbacklight -dec 10")
     ]
 
-volumeKeys :: XConfig a -> M.Map (KeyMask, KeySym) (X ())
-volumeKeys XConfig { modMask } = M.fromList
+volumeKeys :: XConfig a -> Map (KeyMask, KeySym) (X ())
+volumeKeys XConfig { modMask } = fromList
     [ ((0, xF86XK_AudioLowerVolume), spawn "amixer -c 1 set Master 2dB-")
     , ((0, xF86XK_AudioRaiseVolume), spawn "amixer -c 1 set Master 2dB+")
     , ((0, xF86XK_AudioMute), spawn "amixer sset Master toggle")
     , ((modMask .|. controlMask .|. shiftMask, xK_t), namedScratchpadAction scratchpads "htop")
     ]
 
-dmenuKeys :: XConfig a -> M.Map (KeyMask, KeySym) (X ())
-dmenuKeys XConfig { modMask } = M.fromList
+dmenuKeys :: XConfig a -> Map (KeyMask, KeySym) (X ())
+dmenuKeys XConfig { modMask } = fromList
     [ ((modMask, xK_p), spawn "dmenu_run -fn \"xft:Droid Sans Mono\"")
     ]
 
-screenshotKeys :: M.Map (KeyMask, KeySym) (X ())
-screenshotKeys = M.fromList
+screenshotKeys :: Map (KeyMask, KeySym) (X ())
+screenshotKeys = fromList
     [ ((mod1Mask .|. shiftMask, xK_3), spawn "import -window root ~/screenshots/screenshot-$(date +%s).png")
     , ((mod1Mask .|. shiftMask, xK_4), spawn "import ~/screenshots/screenshot-$(date +%s).png")
     ]
