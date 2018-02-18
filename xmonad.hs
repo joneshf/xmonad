@@ -1,3 +1,4 @@
+{-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE PackageImports #-}
 
 import "base" Data.List   (delete)
@@ -126,34 +127,59 @@ myWorkspaces =
     ]
 
 myKeys :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
-myKeys k = M.fromList (moreKeys k) `M.union` keys defaultConfig k
+myKeys =
+    javaNonReparentingKeys
+        <> workspaceMovementKeys
+        <> const lockScreenKeys
+        <> brightnessKeys
+        <> volumeKeys
+        <> dmenuKeys
+        <> const screenshotKeys
+        <> keys defaultConfig
 
-moreKeys :: XConfig t -> [((KeyMask, KeySym), X ())]
-moreKeys (XConfig {XMonad.modMask = modm}) =
-    -- These two lines allow java to work with non-reparenting.
-    [ ((modm,                     xK_z),            setWMName "LG3D")
-    , ((modm,                     xK_Z),            setWMName "XMonad")
-    -- Workspace movement.
-    , ((modm,                     xK_Left),         prevWS)
-    , ((modm,                     xK_Right),        nextWS)
-    , ((modm     .|. shiftMask,   xK_Left),         shiftToPrev >> prevWS)
-    , ((modm     .|. shiftMask,   xK_Right),        shiftToNext >> nextWS)
-    -- Lock the screen.
-    , ((mod1Mask .|. controlMask, xK_l),            spawn "xscreensaver-command -lock")
-    -- Brightness.
-    , ((modm,                     xF86XK_MonBrightnessUp),   spawn "xbacklight -inc 1")
-    , ((modm,                     xF86XK_MonBrightnessDown), spawn "xbacklight -dec 1")
-    , ((modm .|. shiftMask,       xF86XK_MonBrightnessUp),   spawn "xbacklight -inc 10")
-    , ((modm .|. shiftMask,       xF86XK_MonBrightnessDown), spawn "xbacklight -dec 10")
-    -- Volume controls.
-    , ((0,                        xF86XK_AudioLowerVolume), spawn "amixer -c 1 set Master 2dB-")
-    , ((0,                        xF86XK_AudioRaiseVolume), spawn "amixer -c 1 set Master 2dB+")
-    , ((0,                        xF86XK_AudioMute),        spawn "amixer sset Master toggle")
-    , ((modm .|. controlMask .|. shiftMask, xK_t), namedScratchpadAction scratchpads "htop")
-    -- dmenu.
-    , ((modm,                     xK_p),            spawn "dmenu_run -fn \"xft:Droid Sans Mono\"")
-    -- Screenshot.
-    , ((mod1Mask .|. shiftMask, xK_3), spawn "import -window root ~/screenshots/screenshot-$(date +%s).png")
+javaNonReparentingKeys :: XConfig a -> M.Map (KeyMask, KeySym) (X ())
+javaNonReparentingKeys XConfig { modMask } = M.fromList
+    [ ((modMask, xK_z), setWMName "LG3D")
+    , ((modMask, xK_Z), setWMName "XMonad")
+    ]
+
+workspaceMovementKeys :: XConfig a -> M.Map (KeyMask, KeySym) (X ())
+workspaceMovementKeys XConfig { modMask } = M.fromList
+    [ ((modMask, xK_Left), prevWS)
+    , ((modMask, xK_Right), nextWS)
+    , ((modMask .|. shiftMask, xK_Left), shiftToPrev >> prevWS)
+    , ((modMask .|. shiftMask, xK_Right), shiftToNext >> nextWS)
+    ]
+
+lockScreenKeys :: M.Map (KeyMask, KeySym) (X ())
+lockScreenKeys = M.fromList
+    [ ((mod1Mask .|. controlMask, xK_l), spawn "xscreensaver-command -lock")
+    ]
+
+brightnessKeys :: XConfig a -> M.Map (KeyMask, KeySym) (X ())
+brightnessKeys XConfig { modMask } = M.fromList
+    [ ((modMask, xF86XK_MonBrightnessUp), spawn "xbacklight -inc 1")
+    , ((modMask, xF86XK_MonBrightnessDown), spawn "xbacklight -dec 1")
+    , ((modMask .|. shiftMask, xF86XK_MonBrightnessUp), spawn "xbacklight -inc 10")
+    , ((modMask .|. shiftMask, xF86XK_MonBrightnessDown), spawn "xbacklight -dec 10")
+    ]
+
+volumeKeys :: XConfig a -> M.Map (KeyMask, KeySym) (X ())
+volumeKeys XConfig { modMask } = M.fromList
+    [ ((0, xF86XK_AudioLowerVolume), spawn "amixer -c 1 set Master 2dB-")
+    , ((0, xF86XK_AudioRaiseVolume), spawn "amixer -c 1 set Master 2dB+")
+    , ((0, xF86XK_AudioMute), spawn "amixer sset Master toggle")
+    , ((modMask .|. controlMask .|. shiftMask, xK_t), namedScratchpadAction scratchpads "htop")
+    ]
+
+dmenuKeys :: XConfig a -> M.Map (KeyMask, KeySym) (X ())
+dmenuKeys XConfig { modMask } = M.fromList
+    [ ((modMask, xK_p), spawn "dmenu_run -fn \"xft:Droid Sans Mono\"")
+    ]
+
+screenshotKeys :: M.Map (KeyMask, KeySym) (X ())
+screenshotKeys = M.fromList
+    [ ((mod1Mask .|. shiftMask, xK_3), spawn "import -window root ~/screenshots/screenshot-$(date +%s).png")
     , ((mod1Mask .|. shiftMask, xK_4), spawn "import ~/screenshots/screenshot-$(date +%s).png")
     ]
 
