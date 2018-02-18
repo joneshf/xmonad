@@ -1,26 +1,31 @@
-import XMonad hiding (focus)
+import Data.List                    (delete)
+import Data.Monoid
+import Graphics.X11.ExtraTypes.XF86
+import XMonad                       hiding (focus)
 import XMonad.Actions.CycleWS
 import XMonad.Actions.MouseResize
 import XMonad.Hooks.DynamicLog
+import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
-import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.SetWMName
 import XMonad.Layout
 import XMonad.Layout.Decoration
 import XMonad.Layout.LayoutModifier
-import XMonad.Layout.NoBorders (ConfigurableBorder, SetsAmbiguous(..), lessBorders, smartBorders)
+import XMonad.Layout.NoBorders
+    ( ConfigurableBorder
+    , SetsAmbiguous(..)
+    , lessBorders
+    , smartBorders
+    )
 import XMonad.Layout.SimpleFloat
 import XMonad.Layout.Spacing
 import XMonad.Layout.WindowArranger
-import XMonad.StackSet (Stack(..))
-import XMonad.Util.Run
+import XMonad.StackSet              (Stack(..))
 import XMonad.Util.NamedScratchpad
+import XMonad.Util.Run
 
-import Data.List (delete)
 import qualified Data.Map as M
-import Data.Monoid
-import Graphics.X11.ExtraTypes.XF86
 
 main :: IO ()
 main = do
@@ -121,5 +126,5 @@ myLayoutHook = lessBorders MyAmbiguity $ smartSpacingWithEdge 4 $ layoutHook def
 data MyAmbiguity = MyAmbiguity deriving (Read, Show)
 
 instance SetsAmbiguous MyAmbiguity where
-    hiddens _ _ Nothing xs = fst <$> init xs
+    hiddens _ _ Nothing xs                    = fst <$> init xs
     hiddens _ _ (Just (Stack {focus = x})) xs = delete x (fst <$> xs)
