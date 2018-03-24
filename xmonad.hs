@@ -176,8 +176,8 @@ dmenuKeys XConfig { modMask } = fromList
 
 screenshotKeys :: Map (KeyMask, KeySym) (X ())
 screenshotKeys = fromList
-    [ ((mod1Mask .|. shiftMask, xK_3), spawn "import -window root ~/screenshots/screenshot-$(date +%s).png")
-    , ((mod1Mask .|. shiftMask, xK_4), spawn "import ~/screenshots/screenshot-$(date +%s).png")
+    [ ((mod1Mask .|. shiftMask, xK_3), spawn "maim --window root ~/screenshots/screenshot-$(date +%s).png")
+    , ((mod1Mask .|. shiftMask, xK_4), spawn "maim --select ~/screenshots/screenshot-$(date +%s).png")
     ]
 
 myLayoutHook ::
