@@ -1,3 +1,4 @@
+{-# LANGUAGE InstanceSigs   #-}
 {-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE PackageImports #-}
 
@@ -198,5 +199,11 @@ myLayoutHook = lessBorders MyAmbiguity $ smartSpacingWithEdge 4 $ layoutHook def
 data MyAmbiguity = MyAmbiguity deriving (Read, Show)
 
 instance SetsAmbiguous MyAmbiguity where
-    hiddens _ _ Nothing xs                    = fst <$> init xs
-    hiddens _ _ (Just (Stack {focus = x})) xs = delete x (fst <$> xs)
+    hiddens ::
+      MyAmbiguity ->
+      WindowSet -> Rectangle ->
+      Maybe (Stack Window) ->
+      [(Window, Rectangle)] ->
+      [Window]
+    hiddens _ _ _ Nothing xs                    = fst <$> init xs
+    hiddens _ _ _ (Just (Stack {focus = x})) xs = delete x (fst <$> xs)
